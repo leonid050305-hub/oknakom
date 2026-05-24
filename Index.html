@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKNAKOM — Алюминиевые окна для дома и офиса</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C8924A; --gold-light: #D9A96A; --dark: #1a1410; --white: #fff;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Raleway', sans-serif; color: #fff; background: #100d0a; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--gold); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; box-shadow: 0 2px 12px rgba(0,0,0,0.18); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--dark); letter-spacing: 2px; text-decoration: none; }
+  .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--dark); text-decoration: none; font-size: 18px; font-weight: 500; letter-spacing: 0.5px; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 0.7; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-social { display: flex; gap: 10px; }
+  .nav-social a { width: 32px; height: 32px; background: var(--dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); text-decoration: none; font-size: 14px; transition: opacity 0.2s; }
+  .nav-social a:hover { opacity: 0.75; }
+  .nav-phone { display: flex; align-items: center; gap: 8px; background: var(--dark); color: var(--white); padding: 8px 18px; border-radius: 30px; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.5px; transition: opacity 0.2s; }
+  .nav-phone:hover { opacity: 0.82; }
+  .nav-phone svg { width: 16px; height: 16px; fill: var(--gold); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); border-radius: 2px; transition: 0.3s; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 68px;
+    background-image: url('фотки/Главное фото.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.62) 0%, rgba(10,8,6,0.55) 60%, rgba(10,8,6,0.72) 100%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 60px 0;
+    flex: 1;
+  }
+  .hero-content {
+    flex: 1;
+    max-width: 520px;
+  }
+  .hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.6vw, 52px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.18;
+    margin-bottom: 22px;
+  }
+  .hero-content p {
+    font-size: clamp(13px, 1.2vw, 15px);
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+  .btn-hero {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background 0.22s, transform 0.15s;
+  }
+  .btn-hero:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* HERO FORM */
+  .hero-form-wrap {
+    flex-shrink: 0;
+    width: 380px;
+    background: rgba(15,12,10,0.82);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 32px 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .hero-form { display: flex; flex-direction: column; gap: 14px; }
+  .hero-form .hf-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+  .hero-form input, .hero-form textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 11px 14px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .hero-form input::placeholder, .hero-form textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .hero-form input:focus, .hero-form textarea:focus { border-color: var(--gold); }
+  .hero-form textarea { height: 80px; }
+  .hf-phone-wrap { display: flex; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; transition: border-color 0.2s; }
+  .hf-phone-wrap:focus-within { border-color: var(--gold); }
+  .hf-flag { display: flex; align-items: center; gap: 5px; padding: 0 10px; font-size: 13px; color: rgba(255,255,255,0.6); border-right: 1px solid rgba(255,255,255,0.12); white-space: nowrap; }
+  .hf-phone-wrap input { border: none; background: transparent; border-radius: 0; padding: 11px 12px; flex: 1; }
+  .hf-consent { display: flex; align-items: flex-start; gap: 8px; }
+  .hf-consent input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; width: 14px; height: 14px; accent-color: var(--gold); cursor: pointer; }
+  .hf-consent label { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; cursor: pointer; }
+  .hf-consent a { color: var(--gold); text-decoration: none; }
+  .btn-hf-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 13px;
+    border-radius: 4px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 2px;
+  }
+  .btn-hf-submit:hover { background: var(--gold-light); }
+
+  /* HERO FEATURES */
+  .hero-features {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: auto;
+    padding: 48px 60px 52px;
+  }
+  .hero-feature { padding: 0 40px 0 0; }
+  .hero-feature + .hero-feature { padding-left: 40px; border-left: 1px solid rgba(255,255,255,0.18); }
+  .hero-feature-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 0.2px;
+  }
+  .hero-feature-title svg { flex-shrink: 0; }
+  .hero-feature p { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.65; font-weight: 400; }
+
+  /* SERVICES */
+  .section { padding: 80px 60px; text-align: center; background: #100d0a; }
+  .section .section-title, .section .section-sub { text-align: center; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3vw, 38px); font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .section-sub { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 48px; font-weight: 400; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto; }
+  .service-card { background: #1e1812; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.35); transition: box-shadow 0.22s, transform 0.18s; display: flex; flex-direction: column; text-decoration: none; border: 1px solid rgba(200,146,74,0.12); }
+  .service-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: translateY(-4px); border-color: rgba(200,146,74,0.35); }
+  .service-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+  .service-card-body { padding: 22px 22px 26px; display: flex; flex-direction: column; flex: 1; }
+  .service-card-body h3 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .service-card-body p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+  .btn-card { display: inline-block; background: var(--gold); color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; letter-spacing: 0.3px; transition: background 0.2s; align-self: flex-start; }
+  .btn-card:hover { background: var(--gold-light); }
+
+  /* WORKS */
+  .works-section { padding: 80px 60px; background: #150f0b; }
+  .works-slider-wrap { position: relative; margin-top: 40px; }
+  .works-slider { display: flex; gap: 14px; overflow-x: auto; scroll-behavior: smooth; padding: 4px 4px 16px; scrollbar-width: none; }
+  .works-slider::-webkit-scrollbar { display: none; }
+  .work-item { flex-shrink: 0; width: 300px; border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; }
+  .work-item img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.3s, filter 0.3s; }
+  .work-item:hover img { transform: scale(1.04); filter: brightness(0.88); }
+  .work-item::after { content: '🔍'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; opacity: 0; transition: opacity 0.25s; background: rgba(0,0,0,0.25); border-radius: 8px; }
+  .work-item:hover::after { opacity: 1; }
+  .slider-btn { position: absolute; top: 50%; transform: translateY(-60%); width: 44px; height: 44px; border-radius: 50%; background: rgba(20,15,10,0.75); border: none; color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; backdrop-filter: blur(4px); }
+  .slider-btn:hover { background: var(--gold); }
+  .slider-btn.prev { left: -16px; }
+  .slider-btn.next { right: -16px; }
+
+  /* COOKIE BANNER */
+  .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 500; background: #1a1410; border-top: 1px solid rgba(200,146,74,0.3); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; box-shadow: 0 -4px 30px rgba(0,0,0,0.4); }
+  .cookie-banner.hidden { display: none; }
+  .cookie-text { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; max-width: 800px; }
+  .cookie-text a { color: var(--gold); text-decoration: none; }
+  .cookie-text a:hover { text-decoration: underline; }
+  .cookie-btns { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-accept { background: var(--gold); color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-family: 'Raleway', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .cookie-accept:hover { background: var(--gold-light); }
+  .cookie-decline { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 4px; font-family: 'Raleway', sans-serif; font-size: 13px; cursor: pointer; transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
+  .cookie-decline:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+  @media (max-width: 900px) { .cookie-banner { flex-direction: column; padding: 20px 24px; align-items: flex-start; } }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+  .lightbox.active { display: flex; }
+  .lightbox-img { max-width: 90vw; max-height: 88vh; border-radius: 6px; object-fit: contain; box-shadow: 0 8px 60px rgba(0,0,0,0.6); }
+  .lightbox-close { position: fixed; top: 20px; right: 28px; font-size: 36px; color: #fff; cursor: pointer; line-height: 1; background: none; border: none; opacity: 0.8; transition: opacity 0.2s; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-prev, .lightbox-next { position: fixed; top: 50%; transform: translateY(-50%); font-size: 40px; color: #fff; cursor: pointer; background: none; border: none; opacity: 0.7; transition: opacity 0.2s; padding: 12px; }
+  .lightbox-prev:hover, .lightbox-next:hover { opacity: 1; }
+  .lightbox-prev { left: 16px; }
+  .lightbox-next { right: 16px; }
+  .lightbox-counter { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); font-size: 14px; }
+
+  /* WHY */
+  .why-section { padding: 80px 60px; }
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 1100px; margin-top: 48px; }
+  .why-item { text-align: center; }
+  .why-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+  .why-label { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+  .why-desc { font-size: 13px; color: #777; line-height: 1.6; }
+
+  /* CONTACTS */
+  .contacts-section { padding: 80px 60px; background: #100d0a; border-top: 1px solid rgba(200,146,74,0.15); }
+  .contacts-section .section-title { color: #fff; }
+  .contacts-section .section-sub { color: rgba(255,255,255,0.55); }
+  .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1000px; margin-top: 48px; }
+  .contact-info p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 2; }
+  .contact-info a { color: var(--gold); text-decoration: none; }
+  .contact-info a:hover { text-decoration: underline; }
+  .info-label { font-size: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 20px; margin-bottom: 4px; }
+  .contact-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-field { display: flex; flex-direction: column; gap: 7px; }
+  .form-field label { font-size: 14px; font-weight: 600; color: #fff; }
+  .contact-form input, .contact-form textarea { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 13px 16px; font-family: 'Raleway', sans-serif; font-size: 14px; color: #fff; outline: none; transition: border-color 0.2s; resize: none; width: 100%; }
+  .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--gold); }
+  .contact-form textarea { height: 110px; }
+  .phone-wrap { display: flex; align-items: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; transition: border-color 0.2s; }
+  .phone-wrap:focus-within { border-color: var(--gold); }
+  .phone-flag { display: flex; align-items: center; gap: 6px; padding: 0 12px; font-size: 13px; color: rgba(255,255,255,0.7); border-right: 1px solid rgba(255,255,255,0.15); white-space: nowrap; height: 100%; }
+  .phone-wrap input { border: none; background: transparent; border-radius: 0; padding: 13px 14px; flex: 1; }
+  .phone-wrap input:focus { border-color: transparent; }
+  .btn-upload { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 11px 20px; border-radius: 4px; font-family: 'Raleway', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.2s; align-self: flex-start; }
+  .btn-upload:hover { opacity: 0.8; }
+  .form-consent { display: flex; align-items: flex-start; gap: 10px; }
+  .form-consent input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+  .form-consent label { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; cursor: pointer; }
+  .form-consent a { color: var(--gold); text-decoration: none; }
+  .form-consent a:hover { text-decoration: underline; }
+  .btn-submit { background: var(--dark); color: #fff; border: 2px solid rgba(255,255,255,0.15); padding: 14px 40px; border-radius: 4px; font-family: 'Raleway', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; transition: background 0.2s, border-color 0.2s; align-self: flex-start; }
+  .btn-submit:hover { background: #2e2520; border-color: var(--gold); }
+
+  /* FOOTER */
+  footer { background: #0a0806; border-top: 1px solid rgba(200,146,74,0.2); padding: 36px 60px; text-align: center; }
+  footer p { color: rgba(255,255,255,0.6); font-size: 15px; font-weight: 500; line-height: 1.8; }
+  footer .privacy { margin-top: 16px; font-size: 14px; font-weight: 600; color: var(--gold); text-decoration: none; letter-spacing: 1px; display: inline-block; }
+  footer .privacy:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; } .nav-links { display: none; } .hamburger { display: flex; } .nav-phone span { display: none; }
+    .hero-inner { flex-direction: column; padding: 40px 24px 0; gap: 28px; }
+    .hero-form-wrap { width: 100%; }
+    .hero-features { padding: 36px 24px 40px; grid-template-columns: 1fr; gap: 0; }
+    .hero-feature { padding: 24px 0 0 !important; border-left: none !important; border-top: 1px solid rgba(255,255,255,0.18); }
+    .hero-feature:first-child { border-top: none; padding-top: 0 !important; }
+    .section, .works-section, .why-section, .contacts-section { padding: 60px 24px; }
+    .services-grid, .why-grid, .contacts-grid { grid-template-columns: 1fr; }
+    .works-grid { grid-template-columns: repeat(2, 1fr); }
+    footer { padding: 32px 24px; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .section, .works-section, .why-section, .contacts-section { padding: 80px 32px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="Index.html" class="nav-logo">ОКНАКОМ</a>
+  <ul class="nav-links">
+    <li><a href="#services">Наши услуги</a></li>
+    <li><a href="#contacts">Контакты</a></li>
+    <li><a href="#works">Наши работы</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="#" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21.2 4.3L2.7 11.6c-1.2.5-1.2 1.1-.2 1.4l4.7 1.5 1.8 5.5c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.2-2.2 4.6 3.4c.8.5 1.4.2 1.6-.8l2.9-13.6c.3-1.3-.5-1.9-1.9-1.3z"/></svg></a>
+      <a href="#" title="OK"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.5c-2.5 0-4.71-1.28-6-3.22.03-2 4-3.1 6-3.1 1.99 0 5.97 1.1 6 3.1-1.29 1.94-3.5 3.22-6 3.22z"/></svg></a>
+    </div>
+    <a href="tel:+79618087139" class="nav-phone">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      <span>+7 961 808-71-39</span>
+    </a>
+    <button class="hamburger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1>Алюминиевые окна для вашего дома и офиса</h1>
+      <p>20 лет мы профессионально устанавливаем алюминиевые окна для квартир, домов и офисов. Подберём оптимальные решения для каждого клиента. Гарантируем сопровождение на всех этапах — от замера и подбора профиля до монтажа и сервисного обслуживания.</p>
+    </div>
+    <div class="hero-form-wrap">
+      <div class="hero-form-title">Рассчитать стоимость</div>
+      <form class="hero-form" onsubmit="handleHeroSubmit(event)">
+        <div>
+          <div class="hf-label">Электронный адрес</div>
+          <input type="email" placeholder="ivansmirnov@mail.ru" required>
+        </div>
+        <div>
+          <div class="hf-label">Имя и Фамилия</div>
+          <input type="text" placeholder="Иван Смирнов" required>
+        </div>
+        <div>
+          <div class="hf-label">Номер телефона</div>
+          <div class="hf-phone-wrap">
+            <span class="hf-flag">🇷🇺 +7</span>
+            <input type="tel" placeholder="(000) 000-00-00">
+          </div>
+        </div>
+        <div>
+          <div class="hf-label">Комментарии</div>
+          <textarea placeholder="Ваш комментарий..."></textarea>
+        </div>
+        <div class="hf-consent">
+          <input type="checkbox" id="hf-consent" required>
+          <label for="hf-consent">Я даю согласие на обработку персональных данных в соответствии с <a href="#">политикой конфиденциальности</a></label>
+        </div>
+        <button type="submit" class="btn-hf-submit">Отправить</button>
+      </form>
+    </div>
+  </div>
+  <div class="hero-features">
+    <div class="hero-feature">
+      <div class="hero-feature-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#C8924A" stroke-width="2"/><path d="M7 12l3.5 3.5L17 8.5" stroke="#C8924A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Качество и надёжность
+      </div>
+      <p>Используем современные профили и фурнитуру ведущих производителей. Гарантируем долговечность и безопасность каждой установленной конструкции.</p>
+    </div>
+    <div class="hero-feature">
+      <div class="hero-feature-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#C8924A" stroke-width="2"/><path d="M7 12l3.5 3.5L17 8.5" stroke="#C8924A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Индивидуальный подход
+      </div>
+      <p>Предлагаем решения под любой бюджет и стиль. От стандартных до эксклюзивных проектов — учитываем все особенности вашего объекта и ваши пожелания.</p>
+    </div>
+    <div class="hero-feature">
+      <div class="hero-feature-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#C8924A" stroke-width="2"/><path d="M7 12l3.5 3.5L17 8.5" stroke="#C8924A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Полное сопровождение
+      </div>
+      <p>Вы получаете поддержку на каждом этапе — от выбора и заказа до монтажа и сервисного обслуживания. Всегда остаётесь в курсе, что происходит с вашим проектом.</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <h2 class="section-title">Наши услуги</h2>
+  <p class="section-sub">Полный спектр работ по остеклению — от замера до монтажа</p>
+  <div class="services-grid">
+
+    <a href="osteklenie-kvartir.html" class="service-card">
+      <img src="https://static.tildacdn.com/tild6630-3637-4039-b965-396634623061/45341be3b201b815f8f2.jpg" alt="Остекление квартир">
+      <div class="service-card-body">
+        <h3>Остекление квартир</h3>
+        <p>Панорамное остекление, балконы, лоджии и веранды. Алюминиевые системы для любого формата квартиры.</p>
+        <span class="btn-card">Подробнее</span>
+      </div>
+    </a>
+
+    <a href="osteklenie-kottedzhey.html" class="service-card">
+      <img src="https://static.tildacdn.com/tild6431-3231-4361-b737-613435646632/eb05248003e5e63d14f5.jpg" alt="Остекление коттеджей">
+      <div class="service-card-body">
+        <h3>Остекление коттеджей</h3>
+        <p>Панорамные фасады, веранды, террасы, ограждения из стекла. Тёплое алюминиевое остекление для загородных домов.</p>
+        <span class="btn-card">Подробнее</span>
+      </div>
+    </a>
+
+    <a href="kommercheskie-gruppy.html" class="service-card">
+      <img src="https://static.tildacdn.com/tild6539-6637-4931-a337-633939363563/903f0e402e18094a5e2a.jpg" alt="Коммерческие и входные группы">
+      <div class="service-card-body">
+        <h3>Коммерческие и входные группы</h3>
+        <p>Фасады зданий, входные группы ЖК и бизнес-центров, тамбуры, фойе, офисные перегородки.</p>
+        <span class="btn-card">Подробнее</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- WORKS -->
+<section id="works" class="works-section">
+  <h2 class="section-title">Наши работы</h2>
+  <div class="works-slider-wrap">
+    <button class="slider-btn prev" onclick="slideWorks(-1)">&#8249;</button>
+    <div class="works-slider" id="worksSlider">
+      <div class="work-item" onclick="openLightbox(0)"><img src="фотки/23334ce66ec50ea9a3a670a19a8521bf_b231253a-e6bd-4b24-bc46-c43b96a34059.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(1)"><img src="фотки/435db0a954ab072afb6da01004e95741_bff56814-f2c8-41e0-aebd-7ae7d4f87cbe.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(2)"><img src="фотки/5d30592c6b028909e39600d985b7b17c_4f1f483d-fd55-4f86-9c11-50231d002471_500.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(3)"><img src="фотки/5d943ce41ebed88c18ed7965c1e41a50_4db2f7a6-f2d2-4606-93eb-5c7f84d101af.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(4)"><img src="фотки/7200fa28cd0dea488ce781c0e1217398_70e126ec-0ed7-4da2-a63d-7bf7d51e5ec3_500.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(5)"><img src="фотки/a7e7c18f13078fbfe0d1c39924168687_39b5111b-33ca-4648-ac8b-3684d726f157.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(6)"><img src="фотки/aaab6434b841647a32c5cd3ca82f5a3f_f2a4ada9-8aa3-41a2-b760-0567af0587ce.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(7)"><img src="фотки/acaf8da0ba471c7f7f5b23d8a2462ec0_cd546f35-1798-400a-b804-dfb335a8d410.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(8)"><img src="фотки/d57060a156f5a6488dae56b6af8b87a6_5481037a-f955-4d0f-8f18-6cbd25fdc91a.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(9)"><img src="фотки/dd4287a3344f9f6083db838567930ea8_77c68a0e-6634-49d2-b601-76332a7cec9d.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(10)"><img src="фотки/efe9e95280a8105f62aaf8a63d59bec1_7e0b9c3a-3584-4928-8be1-04dc3f85c4d0.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(11)"><img src="фотки/f03f54c1570b137eb51ef646238dd5d2_48311a29-3c22-421e-846a-d506e431f139.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(12)"><img src="фотки/fb4fb52b1afa5ba83b76f86ac55da91f_07c63e50-6491-44e6-a928-b2f80f457ffb.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(13)"><img src="фотки/ff85336885c58b55ced36f3429e09860_8dbf2936-4b27-4763-b8ba-0ff94f2e8fe7.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(14)"><img src="фотки/photo_2026-05-24_13-18-38.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(15)"><img src="фотки/photo_2026-05-24_13-19-12.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(16)"><img src="фотки/photo_2026-05-24_13-19-41.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(17)"><img src="фотки/photo_2026-05-24_13-20-14.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(18)"><img src="фотки/photo_2026-05-24_13-20-49.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(19)"><img src="фотки/photo_2026-05-24_13-21-12.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(20)"><img src="фотки/photo_2026-05-24_13-21-52.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(21)"><img src="фотки/photo_2026-05-24_13-22-13.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(22)"><img src="фотки/photo_2026-05-24_13-22-33.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(23)"><img src="фотки/photo_2026-05-24_13-23-13.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(24)"><img src="фотки/photo_2026-05-24_13-23-35.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(25)"><img src="фотки/photo_2026-05-24_13-24-21.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(26)"><img src="фотки/photo_2026-05-24_13-24-41.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(27)"><img src="фотки/photo_2026-05-24_13-24-58.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(28)"><img src="фотки/photo_2026-05-24_13-29-36.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(29)"><img src="фотки/photo_2026-05-24_13-29-39.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(30)"><img src="фотки/photo_2026-05-24_13-29-41.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(31)"><img src="фотки/photo_2026-05-24_13-29-46.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(32)"><img src="фотки/photo_2026-05-24_13-29-50.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(33)"><img src="фотки/photo_2026-05-24_13-29-52.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(34)"><img src="фотки/photo_2026-05-24_13-29-55.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(35)"><img src="фотки/photo_2026-05-24_13-29-57.jpg" alt="Наша работа"></div>
+      <div class="work-item" onclick="openLightbox(36)"><img src="фотки/photo_2026-05-24_13-29-59.jpg" alt="Наша работа"></div>
+    </div>
+    <button class="slider-btn next" onclick="slideWorks(1)">&#8250;</button>
+  </div>
+</section>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">
+    Мы используем файлы cookie для улучшения работы сайта и анализа посещаемости. Продолжая использовать сайт, вы соглашаетесь с нашей <a href="privacy.html">политикой конфиденциальности</a> и использованием cookie.
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" onclick="acceptCookies()">Принять</button>
+    <button class="cookie-decline" onclick="declineCookies()">Отклонить</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+  <button class="lightbox-prev" onclick="changeLightbox(-1)">&#8249;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <button class="lightbox-next" onclick="changeLightbox(1)">&#8250;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<!-- CONTACTS -->
+<section id="contacts" class="contacts-section">
+  <h2 class="section-title">Контакты</h2>
+  <p class="section-sub">Оставьте заявку — перезвоним и рассчитаем стоимость бесплатно</p>
+  <div class="contacts-grid">
+    <div class="contact-info">
+      <div class="info-label">Телефон</div>
+      <p><a href="tel:+79618087139">+7 961 808-71-39</a></p>
+      <div class="info-label">Email</div>
+      <p><a href="mailto:jalek5ander@yandex.ru">jalek5ander@yandex.ru</a></p>
+      <div class="info-label">Режим работы</div>
+      <p>Пн–Пт: 9:00 — 19:00<br>Сб: 10:00 — 17:00</p>
+      <div class="info-label" style="margin-top:28px;">Мы в соцсетях</div>
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <a href="#" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;" title="Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21.2 4.3L2.7 11.6c-1.2.5-1.2 1.1-.2 1.4l4.7 1.5 1.8 5.5c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.2-2.2 4.6 3.4c.8.5 1.4.2 1.6-.8l2.9-13.6c.3-1.3-.5-1.9-1.9-1.3z"/></svg>
+        </a>
+        <a href="#" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);text-decoration:none;" title="OK">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.5c-2.5 0-4.71-1.28-6-3.22.03-2 4-3.1 6-3.1 1.99 0 5.97 1.1 6 3.1-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-field">
+        <label>Электронный адрес</label>
+        <input type="email" placeholder="ivansmirnov@mail.ru" required>
+      </div>
+      <div class="form-field">
+        <label>Имя и Фамилия</label>
+        <input type="text" placeholder="Иван Смирнов" required>
+      </div>
+      <div class="form-field">
+        <label>Номер телефона</label>
+        <div class="phone-wrap">
+          <span class="phone-flag">🇷🇺 +7</span>
+          <input type="tel" placeholder="(000) 000-00-00">
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Комментарии</label>
+        <textarea placeholder="Ваш комментарий..."></textarea>
+      </div>
+      <div>
+        <label for="file-upload" class="btn-upload">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Прикрепить файл
+        </label>
+        <input id="file-upload" type="file" style="display:none" accept="image/*,.pdf">
+      </div>
+      <div class="form-consent">
+        <input type="checkbox" id="consent" required>
+        <label for="consent">Я даю согласие на обработку персональных данных в соответствии с <a href="#">политикой конфиденциальности</a></label>
+      </div>
+      <button type="submit" class="btn-submit">Отправить</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Phone:</strong> +7 961 808-71-39</p>
+  <p><strong>Email:</strong> jalek5ander@yandex.ru</p>
+  <br>
+  <a href="privacy.html" class="privacy">Политика конфиденциальности</a>
+</footer>
+
+<script>
+  document.querySelector('.hamburger').addEventListener('click', () => {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') { links.style.display = 'none'; }
+    else { links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--gold);padding:24px 32px;gap:20px;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99;'; }
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = 'Заявка отправлена!';
+    btn.style.background = '#4a8c5c';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    e.target.reset();
+  }
+
+  // Cookie
+  if (localStorage.getItem('cookieConsent')) {
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+  function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+  function declineCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+
+  // Slider
+  function slideWorks(dir) {
+    const slider = document.getElementById('worksSlider');
+    slider.scrollBy({ left: dir * 640, behavior: 'smooth' });
+  }
+
+  // Lightbox
+  const photos = Array.from(document.querySelectorAll('#worksSlider .work-item img')).map(i => i.src);
+  let currentPhoto = 0;
+
+  function openLightbox(index) {
+    currentPhoto = index;
+    document.getElementById('lightboxImg').src = photos[index];
+    document.getElementById('lightboxCounter').textContent = (index + 1) + ' / ' + photos.length;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOnBg(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  function changeLightbox(dir) {
+    currentPhoto = (currentPhoto + dir + photos.length) % photos.length;
+    document.getElementById('lightboxImg').src = photos[currentPhoto];
+    document.getElementById('lightboxCounter').textContent = (currentPhoto + 1) + ' / ' + photos.length;
+  }
+
+  document.addEventListener('keydown', e => {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') changeLightbox(1);
+    if (e.key === 'ArrowLeft') changeLightbox(-1);
+  });
+
+  function handleHeroSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-hf-submit');
+    btn.textContent = 'Заявка отправлена!';
+    btn.style.background = '#4a8c5c';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
